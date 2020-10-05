@@ -11,7 +11,7 @@ app.use(cors());
 const port = 5000
 
 
-const uri = "mongodb+srv://volunteer-network-admin:ZWeEPuoS31slfKd3@cluster0.ogiy1.mongodb.net/volunteer-network-db?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ogiy1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const taskCollection = client.db("volunteer-network-db").collection("taskdb");
@@ -35,7 +35,6 @@ client.connect(err => {
   })
 
   app.get('/jobCategory', (req, res) => {
-    // productCollection.find({}).limit(20)
     allJobCategory.find({})
     .toArray( (err, documents) => {
       res.send (documents);
@@ -44,7 +43,6 @@ client.connect(err => {
 
 
   app.get('/registeredJob', (req, res) => {
-    // productCollection.find({}).limit(20)
     taskCollection.find({})
     .toArray( (err, documents) => {
       res.send (documents);
@@ -58,12 +56,6 @@ client.connect(err => {
       console.log(result);
     })
   })
-
- 
-
-
-
-
 
 
 });
